@@ -35,7 +35,7 @@ const ProductDetailScreen: React.FC<LoginScreenProps> = () => {
                     <img width={400} height={400} src={uni}></img>
                 </Card>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 4, marginLeft: 8 }}>
-                    <Typography variant="h4">Black Belt Strong Phenyl</Typography>
+                    <Typography variant="h4">Perfumed Herbal Phenyl</Typography>
                     <Divider style={{ color: '#ef3636' }} />
                     <Stack style={{ margin: 20 }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>

@@ -13,6 +13,20 @@ const defaultProps = {
     zoom: 11
 };
 const AnyReactComponent = (props: any) => <div>{props.text}</div>;
+const Marker = (props: any) => {
+	console.log(props.$hover);
+	return (
+		<>
+			{/* <img src={locationMaker} /> */}
+			{props.$hover && (
+				<div className="info-window">
+					<h5>{props.title}</h5>
+					<p>{props.address}</p>
+				</div>
+			)}
+		</>
+	);
+};
 const ContactUsScreen: React.FC<LoginScreenProps> = () => {
 
     return (
@@ -32,15 +46,30 @@ const ContactUsScreen: React.FC<LoginScreenProps> = () => {
                 </Container>
                 <div style={{ display: 'flex', width: '100%' }}>
                     <GoogleMapReact
-                        bootstrapURLKeys={{ key: "" }}
+                        bootstrapURLKeys={{ key: 'AIzaSyBjlwvfiPfWzuDQLsGrGcxYAiUxFDsyUqA' }}
                         defaultCenter={defaultProps.center}
                         defaultZoom={defaultProps.zoom}
                     >
-                        <AnyReactComponent
+                        {/* <AnyReactComponent
                             lat={59.955413}
                             lng={30.337844}
                             text="My Marker"
-                        />
+                        /> */}
+                        <Marker
+					lat={12.945240857960632}
+					lng={77.57030211278646}
+					title="Cleanmart"
+					address="No 92, EAT St, Gandhi Bazaar, Basavanagudi, Bengaluru, Karnataka 560004"
+				/>
+				<Marker
+					lat={12.956527562373685}
+					lng={77.56125338465536}
+					title="Unitech Products"
+					address="185/B,(Ground floor), 5th Main,
+								
+								Devanathachar Street, Chamrajpet,
+								 Bengaluru, Karnataka - 560018"
+				/>
                     </GoogleMapReact>
                 </div>
             </Card>

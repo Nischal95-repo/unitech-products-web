@@ -13,7 +13,9 @@ const App: React.FC = () => {
       <NavBar />
       <div style={{ marginTop: 70}}>
       <Routes>
+      <Route  path='/' element={<HomeScreen />} />
         <Route path='/home' element={<HomeScreen />} />
+        
         <Route path='/1' element={<ProductDetailScreen />} />
         <Route path='/products' element={<ProductScreen />} />
         <Route path='/about' element={<AboutUsScreen />} />
