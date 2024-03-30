@@ -1,23 +1,30 @@
-import { Breadcrumbs, Button, Card, Container, Link, Stack, Typography } from "@mui/material";
+import { Breadcrumbs, Button, Card, Container, Stack, Typography } from "@mui/material";
 import ProductList from "../components/products/ProductList";
 import CarouselComponent from "../components/shared/Carousel";
 import uni from "../images/uni.jpg";
 import Divider from '@mui/material/Divider';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { ProductType } from "../core/product";
 
-interface LoginScreenProps {
+interface ProductInterface {
+    product: ProductType
 }
 
-const ProductDetailScreen: React.FC<LoginScreenProps> = () => {
+const ProductDetailScreen: React.FC<any> = () => {
+    const param = useParams()
+    const [product, setProduct] = useState<ProductType>()
     const breadcrumbs = [
-        <Link underline="hover" key="1" color="inherit" href="/home" onClick={handleClick}>
+        <Link  key="1" color="inherit" to="/home" >
             HOME
         </Link>,
         <Link
-            underline="hover"
+            
             key="2"
             color="inherit"
-            href="/products"
-            onClick={handleClick}
+            to="/products"
         >
             Products
         </Link>,
@@ -25,6 +32,19 @@ const ProductDetailScreen: React.FC<LoginScreenProps> = () => {
             Product
         </Typography>,
     ];
+
+    useEffect(() => {
+        console.log('param', param)
+        const fetchPrd = async () => {
+            if (param?.id) {
+                let snapShot = await getDoc(doc(db, "products", param?.id))
+                if (snapShot.exists()) {
+                    setProduct(snapShot.data() as ProductType)
+                }
+            }
+        }
+        fetchPrd()
+    }, [])
     return (
         <Container style={{ display: 'flex', flexDirection: 'column' }}>
             <Breadcrumbs separator="›" aria-label="breadcrumb" style={{ margin: 20 }}>
@@ -35,18 +55,24 @@ const ProductDetailScreen: React.FC<LoginScreenProps> = () => {
                     <img width={400} height={400} src={uni}></img>
                 </Card>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 4, marginLeft: 8 }}>
-                    <Typography variant="h4">Perfumed Herbal Phenyl</Typography>
+                    <Typography variant="h4">{product?.name}</Typography>
                     <Divider style={{ color: '#ef3636' }} />
                     <Stack style={{ margin: 20 }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <Typography variant="h6" style={{ margin: 5 }}>Category: </Typography>
-                            <Typography variant="h6" style={{ color: '#ef3636', margin: 5 }}>Bathroom & Toilet</Typography>
+                            <Typography variant="h6" style={{ color: '#ef3636', margin: 5 }}>{product?.category}</Typography>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row' }} >
                             <Typography variant="h6" style={{ margin: 5 }}>Available in</Typography>
-                            <Button variant="outlined" style={{ color: '#ef3636', margin: 5 }}>250ml</Button>
-                            <Button variant="outlined" style={{ color: '#ef3636', margin: 5 }}>500ml</Button>
-                            <Button variant="outlined" style={{ color: '#ef3636', margin: 5 }}>250ml</Button>
+                            {product?.qty?.map((item,idx) => {
+                                
+                                return (
+                                    <Button variant="outlined" style={{ color: '#ef3636', margin: 5 }}>{`${item} ${product.unit.toLowerCase()}`}</Button>
+                                )
+                            })}
+
+                            {/* <Button variant="outlined" style={{ color: '#ef3636', margin: 5 }}>500ml</Button>
+                            <Button variant="outlined" style={{ color: '#ef3636', margin: 5 }}>250ml</Button> */}
                         </div>
                     </Stack>
                     <Divider style={{ color: '#ef3636' }} />
@@ -83,5 +109,5 @@ const ProductDetailScreen: React.FC<LoginScreenProps> = () => {
 export default ProductDetailScreen;
 
 function handleClick(event: any): void {
-    throw new Error("Function not implemented.");
+    // throw new Error("Function not implemented.");
 }

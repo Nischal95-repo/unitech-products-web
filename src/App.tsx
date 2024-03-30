@@ -16,7 +16,7 @@ const App: React.FC = () => {
       <Route  path='/' element={<HomeScreen />} />
         <Route path='/home' element={<HomeScreen />} />
         
-        <Route path='/1' element={<ProductDetailScreen />} />
+        <Route path='product/:id' element={<ProductDetailScreen />} />
         <Route path='/products' element={<ProductScreen />} />
         <Route path='/about' element={<AboutUsScreen />} />
         <Route path='/contact' element={<ContactUsScreen />} />
